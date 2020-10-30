@@ -24,31 +24,39 @@ app.get("/repositories", (request, response) => {
 
 app.post("/repositories", (request, response) => {
 const {title, url, techs} = request.body;
-const repositorie = { id: uuid(), title, url, techs,likes: 0}
+const repository = { 
+  id: uuid(),
+  title,
+  url,
+  techs,
+  likes:0
+}
 
-repositories.push(repositorie);
+repositories.push(repository);
 
-return response.json(repositorie);
+return response.json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
-const { id } =request.params;
 const {title, url, techs} = request.body;
+const { id } = request.params;
 
-const repositoriesIndex = repositories.findIndex(repositorie => repositorie.id === id)
+const findRepositoriesIndex = repositories.findIndex(repositorie => 
+  repositorie.id === id)
 
-if (repositoriesIndex < 0) {
+if (findRepositoriesIndex === -1) {
   return response.status(400).json({ error:'No repositories found' });
 }
-const repositorie = {
+const repository = {
   id,
   title, 
   url, 
-  techs
+  techs,
+  likes: repositories[findRepositoriesIndex].likes
 }
-repositories[repositoriesIndex] = repositorie
+repositories[findRepositoriesIndex] = repository
 
-return response.json(repositorie);
+return response.json(repository);
 
 
 });
@@ -56,24 +64,28 @@ return response.json(repositorie);
 app.delete("/repositories/:id", (request, response) => {
 const { id } = request.params
 
-const repositoriesIndex = repositories.findIndex(repositorie => repositorie.id === id)
+const findRepositoryIndex = repositories.findIndex(repository => repository.id === id)
 
-if (repositoriesIndex < 0) {
+if (findRepositoryIndex < 0) {
   return response.status(400).json({ error:'No repositories found' });
 }
-repositories.splice(repositoriesIndex, 1);
+repositories.splice(findRepositoryIndex, 1);
 return response.status(204).send();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
+const { id } = request.params;
+ 
+const findRepositoryIndex = repositories.findIndex(repository => repository.id === id)
 
-const likes = request.body;
+if (findRepositoryIndex < 0) {
+  return response.status(400).json({ error:'No repositories found' });
+}
+repositories[findRepositoryIndex].likes += 1;
 
-const repositorie = {likes}
 
-repositories.cors(repositorie);
+return response.json(repositories[findRepositoryIndex])
 
-return response.json(repositorie);
 });
 
 module.exports = app;

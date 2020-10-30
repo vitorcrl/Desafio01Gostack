@@ -24,7 +24,7 @@ app.get("/repositories", (request, response) => {
 
 app.post("/repositories", (request, response) => {
 const {title, url, techs} = request.body;
-const repositorie = { id: uuid(), title, url, techs}
+const repositorie = { id: uuid(), title, url, techs,likes: 0}
 
 repositories.push(repositorie);
 
@@ -66,9 +66,14 @@ return response.status(204).send();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-const likes = request.body.likes;
+
+const likes = request.body;
+
 const repositorie = {likes}
 
+repositories.cors(repositorie);
+
+return response.json(repositorie);
 });
 
 module.exports = app;

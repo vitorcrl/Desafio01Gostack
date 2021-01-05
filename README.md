@@ -1,4 +1,4 @@
-https://steamcommunity.com/tradeoffer/new/?partner=248322635&token=QNvo9IAN
+![https://fiqueemcasa.nic.ifrn.edu.br/img/servicos/rock.png](https://fiqueemcasa.nic.ifrn.edu.br/img/servicos/rock.png)
 
 
 # Desafio 1 Gostack
